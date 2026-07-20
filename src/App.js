@@ -70,10 +70,10 @@ const STATUS_META = {
 };
 
 const sel = {
-  padding:"8px 14px", borderRadius:8, border:"2px solid #2C6FAC",
-  fontSize:13, fontWeight:700, color:"#2C6FAC", background:"#fff",
+  padding:"8px 14px", borderRadius:8, border:"2px solid #E5006D",
+  fontSize:13, fontWeight:700, color:"#E5006D", background:"#fff",
   cursor:"pointer", outline:"none", WebkitAppearance:"none", appearance:"none",
-  backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232C6FAC' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+  backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23E5006D' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
   backgroundRepeat:"no-repeat", backgroundPosition:"right 10px center", paddingRight:32
 };
 
@@ -117,8 +117,7 @@ export default function App() {
   return (
     <div style={{fontFamily:"Arial,sans-serif",maxWidth:900,margin:"0 auto",paddingBottom:48}}>
 
-      <div style={{background:"linear-gradient(135deg,#2C6FAC 0%,#17456F 100%)",padding:"24px 28px 22px",borderRadius:"0 0 16px 16px",marginBottom:24}}>
-        <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:"rgba(255,255,255,0.7)",textTransform:"uppercase",marginBottom:4}}>Gratitude Restaurant Group</div>
+      <div style={{background:"linear-gradient(135deg,#E5006D 0%,#003DA5 100%)",padding:"24px 28px 22px",borderRadius:"0 0 16px 16px",marginBottom:24}}>
         <div style={{fontSize:26,fontWeight:900,color:"#fff",lineHeight:1.1}}>🥤 Share Happy with a Cappy</div>
         <div style={{fontSize:13,color:"rgba(255,255,255,0.8)",marginTop:4}}>Weekly Cappy Blast unit leaderboard · {STORES.length} stores · Goals = rolling 5-wk avg +5% / +10%</div>
         <div style={{display:"flex",gap:10,marginTop:18,flexWrap:"wrap"}}>
@@ -133,7 +132,7 @@ export default function App() {
 
       <div style={{display:"flex",gap:8,padding:"0 16px",marginBottom:22}}>
         {[["leaderboard","📊 Leaderboard"],["poster","🎉 Winner Poster"]].map(([v,label])=>(
-          <button key={v} onClick={()=>setView(v)} style={{padding:"9px 20px",borderRadius:8,border:"none",cursor:"pointer",fontWeight:700,fontSize:13,background:view===v?"#2C6FAC":"#f0f0f0",color:view===v?"#fff":"#444"}}>{label}</button>
+          <button key={v} onClick={()=>setView(v)} style={{padding:"9px 20px",borderRadius:8,border:"none",cursor:"pointer",fontWeight:700,fontSize:13,background:view===v?"#E5006D":"#f0f0f0",color:view===v?"#fff":"#444"}}>{label}</button>
         ))}
       </div>
 
@@ -181,12 +180,12 @@ export default function App() {
               {WEEKLY_RESULTS.map((w,i)=><option key={i} value={i}>{w.label}</option>)}
             </select>
           </div>
-          <div style={{background:"linear-gradient(160deg,#08131f 0%,#123049 55%,#2C6FAC 100%)",borderRadius:16,padding:"36px 28px 32px",color:"#fff",boxShadow:"0 8px 32px rgba(0,0,0,0.25)"}}>
+          <div style={{background:"linear-gradient(160deg,#1a002e 0%,#003DA5 55%,#E5006D 100%)",borderRadius:16,padding:"36px 28px 32px",color:"#fff",boxShadow:"0 8px 32px rgba(0,0,0,0.25)"}}>
             <div style={{textAlign:"center",marginBottom:28}}>
               <div style={{fontSize:44,marginBottom:6}}>🥤</div>
-              <div style={{fontSize:11,letterSpacing:4,fontWeight:700,color:"#F4C430",textTransform:"uppercase",marginBottom:6}}>Share Happy with a Cappy</div>
+              <div style={{fontSize:11,letterSpacing:4,fontWeight:700,color:"#FF6FB1",textTransform:"uppercase",marginBottom:6}}>Share Happy with a Cappy</div>
               <div style={{fontSize:28,fontWeight:900,lineHeight:1.1}}>{WEEKLY_RESULTS[posterIdx].label} — Champions</div>
-              <div style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:6}}>Stores hitting their rolling Cappy Blast unit goals · Gratitude Restaurant Group</div>
+              <div style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:6}}>Stores hitting their rolling Cappy Blast unit goals</div>
             </div>
             {posterStores.length===0 ? (
               <div style={{textAlign:"center",color:"rgba(255,255,255,0.4)",padding:"32px 0",fontSize:14}}>No results available for this week yet.</div>
@@ -225,7 +224,7 @@ export default function App() {
                 )}
               </>
             )}
-            <div style={{textAlign:"center",marginTop:28,fontSize:11,color:"rgba(255,255,255,0.3)"}}>Gratitude Restaurant Group · Anthony Rodriguez, VP Operations</div>
+            <div style={{textAlign:"center",marginTop:28,fontSize:11,color:"rgba(255,255,255,0.3)"}}>Anthony Rodriguez, VP Operations</div>
           </div>
         </div>
       )}
