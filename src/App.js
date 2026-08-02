@@ -18,7 +18,7 @@ const STORES = [
   { store_num: "358705", short: "11330 Potranco Rd, SA", network: "OMALA", dm: "Tiffany Thompson", rm: "Eufracio (Foz) Rivera" },
   { store_num: "359496", short: "1516 S Fort Hood St, Killeen", network: "VRG", dm: "Christy Elliott", rm: "Sean Kennedy" },
   { store_num: "359644", short: "12061 FM 2154, College Sta", network: "VRG", dm: "Christy Elliott", rm: "Lydia Robertson" },
-  { store_num: "359888", short: "801 Sidney Baker St, Kerrville", network: "VRG", dm: "Bryce Cedio", rm: "Tyree Williams" },
+  { store_num: "359888", short: "801 Sidney Baker St, Kerrville", network: "OMALA", dm: "Bryce Cedio", rm: "Tyree Williams" },
   { store_num: "362644", short: "5170 Lake Ridge Pkwy, Grand Prairie", network: "GRG", dm: "Sidd Patel", rm: "Erica Morante" },
   { store_num: "362967", short: "7451 W Adams Ave, Temple", network: "VRG", dm: "Christy Elliott", rm: "Katherine Trace" },
   { store_num: "363024", short: "2406 E Business 190, Copperas Cove", network: "VRG", dm: "Christy Elliott", rm: "Cadge Clayton" },
