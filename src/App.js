@@ -41,14 +41,20 @@ const WEEKLY_RESULTS = [
 
 const NET_COLORS = { GRG: "#EC762F", VRG: "#2C6FAC", OMALA: "#1D9E75", TRG: "#8B3FA8" };
 
-function computeGoals(weekIdx) {
+const TEXAS_DAILY_GOAL = 3;
+const TEXAS_WEEKLY_GOAL = 21;
+const CHICAGO_WEEKLY_GOAL = 80;
+const CHICAGO_DAILY_GOALS = { Sun:12, Mon:11, Tue:9, Wed:12, Thu:11, Fri:12, Sat:14 };
+
+function computeGoals() {
   const goals = {};
   STORES.forEach(s => {
-    const lookback = WEEKLY_RESULTS.slice(Math.max(0, weekIdx - 5), weekIdx);
-    const vals = lookback.map(w => w.data[s.store_num]).filter(v => v !== undefined);
-    if (!vals.length) { goals[s.store_num] = { avg:0, g5:0, g10:0 }; return; }
-    const avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
-    goals[s.store_num] = { avg, g5: Math.round(avg*1.05), g10: Math.round(avg*1.10) };
+    const weeklyGoal = s.network === "TRG" ? CHICAGO_WEEKLY_GOAL : TEXAS_WEEKLY_GOAL;
+    goals[s.store_num] = {
+      avg: weeklyGoal,
+      g5: weeklyGoal,
+      g10: Math.ceil(weeklyGoal * 1.10),
+    };
   });
   return goals;
 }
@@ -121,9 +127,9 @@ export default function App() {
 
       <div style={{background:"linear-gradient(135deg,#E5006D 0%,#003DA5 100%)",padding:"24px 28px 22px",borderRadius:"0 0 16px 16px",marginBottom:24}}>
         <div style={{fontSize:26,fontWeight:900,color:"#fff",lineHeight:1.1}}>🥤 Share Happy with a Cappy</div>
-        <div style={{fontSize:13,color:"rgba(255,255,255,0.8)",marginTop:4}}>Weekly Cappy Blast unit leaderboard · {STORES.length} stores · Goals = rolling 5-wk avg +5% / +10%</div>
+        <div style={{fontSize:13,color:"rgba(255,255,255,0.8)",marginTop:4}}>Weekly Cappy Blast unit leaderboard · {STORES.length} stores · Texas: 3/day · 21/week · Chicago: DMA benchmark goals</div>
         <div style={{display:"flex",gap:10,marginTop:18,flexWrap:"wrap"}}>
-          {[{label:"Hitting Goal",val:`${hitting.length}/${STORES.length}`,accent:"#fff"},{label:"Gold (+10%)",val:gold.length,accent:"#F4C430"},{label:"On Goal (+5%)",val:hitting.length-gold.length,accent:"#7AE6B0"}].map(p=>(
+          {[{label:"Hitting Goal",val:`${hitting.length}/${STORES.length}`,accent:"#fff"},{label:"Gold (+10%)",val:gold.length,accent:"#F4C430"},{label:"On Goal (minimum)",val:hitting.length-gold.length,accent:"#7AE6B0"}].map(p=>(
             <div key={p.label} style={{background:"rgba(0,0,0,0.2)",borderRadius:8,padding:"8px 16px"}}>
               <div style={{fontSize:22,fontWeight:900,color:p.accent}}>{p.val}</div>
               <div style={{fontSize:11,color:"rgba(255,255,255,0.75)"}}>{p.label}</div>
@@ -140,6 +146,18 @@ export default function App() {
 
       {view==="leaderboard" && (
         <div style={{padding:"0 16px"}}>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:10,marginBottom:18}}>
+            <div style={{background:"#E8F8F2",border:"1.5px solid #1D9E75",borderRadius:10,padding:"12px 14px"}}>
+              <div style={{fontSize:12,fontWeight:900,color:"#0F6E56"}}>Texas store minimum</div>
+              <div style={{fontSize:20,fontWeight:900,color:"#0F6E56",marginTop:3}}>{TEXAS_DAILY_GOAL}/day · {TEXAS_WEEKLY_GOAL}/week</div>
+            </div>
+            <div style={{background:"#F5ECFA",border:"1.5px solid #8B3FA8",borderRadius:10,padding:"12px 14px"}}>
+              <div style={{fontSize:12,fontWeight:900,color:"#6C2D82"}}>Chicago store goals · {CHICAGO_WEEKLY_GOAL}/week</div>
+              <div style={{display:"flex",gap:5,flexWrap:"wrap",marginTop:7}}>
+                {Object.entries(CHICAGO_DAILY_GOALS).map(([day,goal])=><span key={day} style={{background:"#fff",borderRadius:5,padding:"3px 6px",fontSize:11,fontWeight:700,color:"#6C2D82"}}>{day} {goal}</span>)}
+              </div>
+            </div>
+          </div>
           <div style={{display:"flex",gap:12,marginBottom:18,flexWrap:"wrap",alignItems:"center"}}>
             <select value={weekIdx} onChange={e=>setWeekIdx(Number(e.target.value))} style={sel}>
               {WEEKLY_RESULTS.map((w,i)=><option key={i} value={i}>{w.label}</option>)}
@@ -160,7 +178,7 @@ export default function App() {
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{fontWeight:700,fontSize:13,color:"#222",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.short}</div>
                     <div style={{fontSize:11,color:"#888",marginTop:1}}>{s.network} · RM {s.rm} · DM {s.dm}</div>
-                    <div style={{fontSize:11,color:"#888",marginTop:1}}>5wk avg: {s.avg.toLocaleString()} · Goal: {s.g5.toLocaleString()}–{s.g10.toLocaleString()}</div>
+                    <div style={{fontSize:11,color:"#888",marginTop:1}}>Weekly goal: {s.g5.toLocaleString()} · Stretch: {s.g10.toLocaleString()}</div>
                   </div>
                   <div style={{textAlign:"right",flexShrink:0,minWidth:60}}>
                     <div style={{fontSize:18,fontWeight:900,color:m.text}}>{s.val!==undefined?Number(s.val).toLocaleString():"—"}</div>
@@ -187,7 +205,7 @@ export default function App() {
               <div style={{fontSize:44,marginBottom:6}}>🥤</div>
               <div style={{fontSize:11,letterSpacing:4,fontWeight:700,color:"#FF6FB1",textTransform:"uppercase",marginBottom:6}}>Share Happy with a Cappy</div>
               <div style={{fontSize:28,fontWeight:900,lineHeight:1.1}}>{WEEKLY_RESULTS[posterIdx].label} — Champions</div>
-              <div style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:6}}>Stores hitting their rolling Cappy Blast unit goals</div>
+              <div style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:6}}>Stores hitting their weekly Cappy Blast unit goals</div>
             </div>
             {posterStores.length===0 ? (
               <div style={{textAlign:"center",color:"rgba(255,255,255,0.4)",padding:"32px 0",fontSize:14}}>No results available for this week yet.</div>
@@ -211,7 +229,7 @@ export default function App() {
                 )}
                 {posterStores.filter(s=>s.status==="green").length>0&&(
                   <div>
-                    <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:"#7AE6B0",textTransform:"uppercase",marginBottom:10}}>✅ Goal Tier — +5% or better</div>
+                    <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:"#7AE6B0",textTransform:"uppercase",marginBottom:10}}>✅ Goal Tier — weekly minimum met</div>
                     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(175px,1fr))",gap:8}}>
                       {posterStores.filter(s=>s.status==="green").map(s=>(
                         <div key={s.store_num} style={{background:"rgba(29,158,117,0.15)",border:"1.5px solid #1D9E75",borderRadius:10,padding:"12px 14px"}}>
